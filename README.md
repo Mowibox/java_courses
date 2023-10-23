@@ -1,2 +1,2 @@
 # java_courses
-Java exercises for OOP workshop
+Java exercises for the OOP workshop
