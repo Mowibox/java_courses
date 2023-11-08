@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 //Exercise 1 - The Student class
 public class Student {
     //Class attributes
