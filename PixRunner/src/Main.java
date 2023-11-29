@@ -11,9 +11,13 @@ public class Main extends Application {
         primaryStage.setTitle("PixRunner");
         Group root = new Group();
         Pane pane = new Pane(root);
-        Scene theScene = new Scene(pane, 600, 400, true);
-        primaryStage.setScene(theScene);
+        //Scene gameScene = new Scene(pane, 600, 400, true);
 
+        Camera camera = new Camera(600, 600);
+        GameScene gameScene = new GameScene(pane, camera);
+
+        primaryStage.setScene(gameScene);
+        System.out.println(gameScene.gettingCamera());
         primaryStage.show();
     }
 
