@@ -1,7 +1,6 @@
 public class Camera {
     //Set of 2D-coordinates
-    private int x;
-    private int y;
+    private int x, y;
 
     public Camera(int x, int y) {
         this.x = x;
