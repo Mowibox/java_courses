@@ -17,7 +17,6 @@ public class StaticThings {
 
 
     }
-
     public ImageView getSprite(){
         return imageView;
     }
