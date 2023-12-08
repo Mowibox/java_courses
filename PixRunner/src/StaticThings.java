@@ -21,4 +21,10 @@ public class StaticThings {
         return imageView;
     }
 
+    public void update(double posX) {
+        sizeX = posX;
+        this.imageView.setX(sizeX);
+
+    }
+
 }
