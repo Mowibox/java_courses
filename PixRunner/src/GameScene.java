@@ -57,7 +57,7 @@ public class GameScene extends Scene {
     }
 
     public void update(long time) {
-        time = (time / 3000000) % 800;
+        time = (time / 3200000) % 800;
         long bgLeftX = -time;
         long bgRightX = 800 - time;
         this.bgLeft.update(bgLeftX);

@@ -13,15 +13,18 @@ public abstract class AnimatedThings {
     private double windowSizeX, windowSizeY;
     private double offsetX, offsetY;
 
+    private static final int DURATION_FACTOR = 85000000;
+    private static final int ATTITUDE_OFFSET = 125;
+
     public AnimatedThings(double x, double y, String filename, int attitude, int index,
                          int duration, int maxIndex, double windowSizeX, double windowSizeY,
                          double offsetX, double offsetY) {
         this.x = x;
         this.y = y;
-        this.attitude = attitude;
+        this.attitude = 1;
         this.index = index;
         this.duration = duration;
-        this.maxIndex = maxIndex = 6;
+        this.maxIndex = 2;
         this.windowSizeX = windowSizeX;
         this.windowSizeY = windowSizeY;
         this.offsetX = offsetX;
@@ -47,9 +50,9 @@ public abstract class AnimatedThings {
 
     public void updateAnimation(long time) {
 
-        this.setIndex((int) (time/85000000%maxIndex));
+        this.setIndex((int) (time/DURATION_FACTOR%maxIndex));
 
-            this.sprite.setViewport(new Rectangle2D(offsetX*index,161*attitude,windowSizeX,windowSizeY));
+            this.sprite.setViewport(new Rectangle2D(offsetX*index,ATTITUDE_OFFSET*attitude,windowSizeX,windowSizeY));
 
     }
 

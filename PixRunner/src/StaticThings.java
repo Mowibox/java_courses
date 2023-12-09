@@ -27,4 +27,12 @@ public class StaticThings {
 
     }
 
+    public double getX() {
+        return sizeX;
+    }
+
+    public double getY() {
+        return sizeY;
+    }
+
 }
