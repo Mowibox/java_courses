@@ -23,8 +23,8 @@ public class GameScene extends Scene {
         super(parent, v, v1);
         this.parent = parent;
         this.camera = camera;
-        this.bgLeft = new StaticThings(0,0,"file:img/desert.png");
-        this.bgRight = new StaticThings(800,0,"file:img/desert.png");
+        this.bgLeft = new StaticThings(0,0,"file:img/background.png");
+        this.bgRight = new StaticThings(800,0,"file:img/background.png");
         //Allow to display the background images
         this.parent.getChildren().add(this.bgLeft.getSprite());
         this.parent.getChildren().add(this.bgRight.getSprite());
@@ -35,7 +35,7 @@ public class GameScene extends Scene {
             this.parent.getChildren().add(this.heart.getSprite());
         }
 
-        this.pix = new Hero(50, 260, "file:img/heros.png", 0, 0, 100, 3, 85, 100,85,0);
+        this.pix = new Hero(50, 260, "file:img/pixspritesheet.png", 0, 0, 100, 3, 85, 100,85,0);
         this.parent.getChildren().add(pix.getSprite());
 
     }

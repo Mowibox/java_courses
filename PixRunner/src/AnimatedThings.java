@@ -14,17 +14,17 @@ public abstract class AnimatedThings {
     private double offsetX, offsetY;
 
     private static final int DURATION_FACTOR = 85000000;
-    private static final int ATTITUDE_OFFSET = 125;
+    private static final int ATTITUDE_OFFSET = 150;
 
     public AnimatedThings(double x, double y, String filename, int attitude, int index,
                          int duration, int maxIndex, double windowSizeX, double windowSizeY,
                          double offsetX, double offsetY) {
         this.x = x;
         this.y = y;
-        this.attitude = 1;
+        this.attitude = attitude;
         this.index = index;
         this.duration = duration;
-        this.maxIndex = 2;
+        this.maxIndex = 6;
         this.windowSizeX = windowSizeX;
         this.windowSizeY = windowSizeY;
         this.offsetX = offsetX;
