@@ -12,7 +12,6 @@ public abstract class AnimatedThings {
     private int maxIndex;
     private double windowSizeX, windowSizeY;
     private double offsetX, offsetY;
-    private long lastUpdate = 0;
 
     public AnimatedThings(double x, double y, String filename, int attitude, int index,
                          int duration, int maxIndex, double windowSizeX, double windowSizeY,

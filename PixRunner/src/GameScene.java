@@ -35,7 +35,7 @@ public class GameScene extends Scene {
             this.parent.getChildren().add(this.heart.getSprite());
         }
 
-        this.pix = new Hero(50, 240, "file:img/heros.png", 0, 0, 100, 3, 80, 100,86,0);
+        this.pix = new Hero(50, 260, "file:img/heros.png", 0, 0, 100, 3, 85, 100,85,0);
         this.parent.getChildren().add(pix.getSprite());
 
     }
