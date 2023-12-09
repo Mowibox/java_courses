@@ -7,7 +7,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    int i = 0;
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -30,7 +29,6 @@ public class Main extends Application {
                 gameScene.update(time);
                 gameScene.pix.updateAnimation(time);
                 gameScene.render();
-
 
             }
         };

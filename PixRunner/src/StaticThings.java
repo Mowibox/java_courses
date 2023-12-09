@@ -9,12 +9,12 @@ public class StaticThings {
     public StaticThings(double sizeX, double sizeY, String filename){
         this.sizeX = sizeX;
         this.sizeY = sizeY;
+
         //Image creation
         Image image = new Image(filename);
         this.imageView = new ImageView(image);
         this.imageView.setX(sizeX);
         this.imageView.setY(sizeY);
-
 
     }
     public ImageView getSprite(){
@@ -22,6 +22,7 @@ public class StaticThings {
     }
 
     public void update(double posX) {
+        //Giving a new position for the background
         sizeX = posX;
         this.imageView.setX(sizeX);
 
