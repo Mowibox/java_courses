@@ -1,3 +1,4 @@
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -5,6 +6,8 @@ public class StaticThings {
 
     private double sizeX, sizeY;
     ImageView imageView;
+
+    private ColorAdjust colorAdjust; //Color change functionality
 
     public StaticThings(double sizeX, double sizeY, String filename){
         this.sizeX = sizeX;
@@ -15,6 +18,9 @@ public class StaticThings {
         this.imageView = new ImageView(image);
         this.imageView.setX(sizeX);
         this.imageView.setY(sizeY);
+
+        colorAdjust = new ColorAdjust();
+        imageView.setEffect(colorAdjust);
 
     }
     public ImageView getSprite(){
@@ -36,4 +42,7 @@ public class StaticThings {
         return sizeY;
     }
 
+    public void changeColor(double hue) {
+        colorAdjust.setHue(hue);
+    }
 }

@@ -1,4 +1,5 @@
 import javafx.geometry.Rectangle2D;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -14,6 +15,8 @@ public abstract class AnimatedThings {
 
     private static final int DURATION_FACTOR = 85000000;
     private static final int ATTITUDE_OFFSET = 150; //y-offset between vertical sprites
+
+    private ColorAdjust pixColor; //Color change functionality
 
     public AnimatedThings(double x, double y, String filename, int attitude, int index, int maxIndex, double windowSizeX, double windowSizeY,
                          double offsetX, double offsetY) {
@@ -33,6 +36,9 @@ public abstract class AnimatedThings {
         this.sprite.setX(x);
         this.sprite.setY(y);
 
+        pixColor = new ColorAdjust();
+        sprite.setEffect(pixColor);
+
     }
 
     public ImageView getSprite() {
@@ -49,6 +55,9 @@ public abstract class AnimatedThings {
 
     }
 
+    public void colorChange(double hue){
+        pixColor.setHue(hue);
+    }
 
 
 }

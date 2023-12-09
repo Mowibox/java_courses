@@ -1,8 +1,8 @@
-import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 
 
 public class GameScene extends Scene {
@@ -25,9 +25,7 @@ public class GameScene extends Scene {
 
     private static final int DURATION_FACTOR = 3200000;
 
-
-
-    private int index = 0;
+    private double hue = 0;
 
     public GameScene(Group parent, double v, double v1, Camera camera) {
         super(parent, v, v1);
@@ -49,6 +47,13 @@ public class GameScene extends Scene {
         //Hero creation
         this.pix = new Hero(50, 260, PIX_SPRITE_SHEET, 0, 0, 6, 85, 100,85,0);
         this.parent.getChildren().add(pix.getSprite());
+
+        this.setOnKeyPressed(event -> {handleKeyPress(event.getCode());
+        hue = handleKeyPress(event.getCode());
+        // heart.changeColor(hue); //To fix later
+        });
+
+
 
     }
 
@@ -78,6 +83,34 @@ public class GameScene extends Scene {
         this.bgRight.update(bgRightX);
 
 
+    }
+
+    private double handleKeyPress(KeyCode code) {
+        double hue = switch (code) {
+            case X -> {
+                System.out.println("Orange Pix");
+                yield 0.25;
+            }
+            case C -> {
+                System.out.println("Yellow Pix");
+                yield 0.55;
+            }
+            case V -> {
+                System.out.println("Green Pix");
+                yield 0.9;
+            }
+            case B -> {
+                System.out.println("Purple Pix");
+                yield -0.25;
+            }
+            case N -> {
+                System.out.println("Normal Pix");
+                yield 0;
+            }
+            default -> 0;
+        };
+        pix.colorChange(hue);
+        return hue;
     }
 
 
