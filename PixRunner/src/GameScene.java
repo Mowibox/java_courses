@@ -3,6 +3,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 
 public class GameScene extends Scene {
@@ -18,14 +20,19 @@ public class GameScene extends Scene {
     //Hero creation
     Hero pix;
 
-    //Macros for images paths
+    //Macros for images/music paths
     public static final String BACKGROUND_PATH = "file:img/background.png";
     public static final String HEART_PATH = "file:img/heart.png";
     public static final String PIX_SPRITE_SHEET = "file:img/pixspritesheet.png";
+    public static final String MUSIC_PATH = "file:/C:/Workspace/Git_folders/java_courses/PixRunner/sound/theme.mp3";
+    public static final String SOUND_PATH = "file:/C:/Workspace/Git_folders/java_courses/PixRunner/sound/colorswap.mp3";
+
+    public static final String JUMP_SOUND = "file:/C:/Workspace/Git_folders/java_courses/PixRunner/sound/jump.wav";
 
     private static final int DURATION_FACTOR = 3200000;
 
-    private double hue = 0;
+    private double hue;
+    private MediaPlayer mediaPlayer, mediaPlayer2, mediaPlayer3;
 
     public GameScene(Group parent, double v, double v1, Camera camera) {
         super(parent, v, v1);
@@ -48,10 +55,31 @@ public class GameScene extends Scene {
         this.pix = new Hero(50, 260, PIX_SPRITE_SHEET, 0, 0, 6, 85, 100,85,0);
         this.parent.getChildren().add(pix.getSprite());
 
-        this.setOnKeyPressed(event -> {handleKeyPress(event.getCode());
-        hue = handleKeyPress(event.getCode());
+        this.setOnKeyPressed(event -> {handleKeyPress(event.getCode(), hue);
+        hue = handleKeyPress(event.getCode(), hue);
         // heart.changeColor(hue); //To fix later
         });
+
+        //Music management
+        Media music = new Media(MUSIC_PATH);
+        mediaPlayer = new MediaPlayer(music);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); //Music loop
+        mediaPlayer.setVolume(0.5);
+        mediaPlayer.play();
+
+
+
+        this.setOnMouseClicked( (event)->{
+            System.out.println("Jump");
+            Media jumpSound = new Media(JUMP_SOUND);
+            mediaPlayer3 = new MediaPlayer(jumpSound);
+            mediaPlayer3.setVolume(0.7);
+            mediaPlayer3.play();
+
+        });
+
+
+
 
 
 
@@ -82,32 +110,38 @@ public class GameScene extends Scene {
         this.bgLeft.update(bgLeftX);
         this.bgRight.update(bgRightX);
 
-
     }
 
-    private double handleKeyPress(KeyCode code) {
+    private double handleKeyPress(KeyCode code, double currentHue) {
+        Media sound = new Media(SOUND_PATH);
+        mediaPlayer2 = new MediaPlayer(sound);
         double hue = switch (code) {
             case X -> {
                 System.out.println("Orange Pix");
+                mediaPlayer2.play();
                 yield 0.25;
             }
             case C -> {
                 System.out.println("Yellow Pix");
+                mediaPlayer2.play();
                 yield 0.55;
             }
             case V -> {
                 System.out.println("Green Pix");
+                mediaPlayer2.play();
                 yield 0.9;
             }
             case B -> {
                 System.out.println("Purple Pix");
+                mediaPlayer2.play();
                 yield -0.25;
             }
             case N -> {
                 System.out.println("Normal Pix");
+                mediaPlayer2.play();
                 yield 0;
             }
-            default -> 0;
+            default -> currentHue;
         };
         pix.colorChange(hue);
         return hue;
