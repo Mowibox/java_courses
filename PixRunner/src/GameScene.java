@@ -80,9 +80,6 @@ public class GameScene extends Scene {
 
 
 
-
-
-
     }
 
     public void render() {

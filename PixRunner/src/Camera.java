@@ -19,4 +19,5 @@ public class Camera {
     public String toString() {
         return x + "," + y;
     }
+
 }
