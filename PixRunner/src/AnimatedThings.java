@@ -49,15 +49,32 @@ public abstract class AnimatedThings {
         index = i;
     }
 
-    public void updateAnimation(long time) {
-        this.setIndex((int) (time/DURATION_FACTOR%maxIndex)); //Determines the displayed frame index
-        this.sprite.setViewport(new Rectangle2D(offsetX*index,ATTITUDE_OFFSET*attitude,windowSizeX,windowSizeY));
+    public void updateAnimation(long time, boolean jumping, boolean falling) {
+        if(jumping && !falling){
+            attitude = 1;
+            this.setIndex(0);
+            this.sprite.setViewport(new Rectangle2D(offsetX * index, ATTITUDE_OFFSET * attitude, windowSizeX, windowSizeY));
+
+        } else if (!jumping && falling) {
+            attitude = 1;
+            this.setIndex(1);
+            this.sprite.setViewport(new Rectangle2D(offsetX * index, ATTITUDE_OFFSET * attitude, windowSizeX, windowSizeY));
+        }
+        else {
+            attitude = 0;
+            this.setIndex((int) (time / DURATION_FACTOR % maxIndex)); //Determines the displayed frame index
+            this.sprite.setViewport(new Rectangle2D(offsetX * index, ATTITUDE_OFFSET * attitude, windowSizeX, windowSizeY));
+        }
 
     }
 
     public void colorChange(double hue){
         pixColor.setHue(hue);
     }
+
+
+
+
 
 
 }

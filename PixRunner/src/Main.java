@@ -27,7 +27,7 @@ public class Main extends Application {
             @Override
             public void handle(long time) {
                 gameScene.update(time);
-                gameScene.pix.updateAnimation(time);
+                gameScene.pix.updateAnimation(time, gameScene.jumping, gameScene.falling);
                 gameScene.render();
 
             }

@@ -16,6 +16,7 @@ public class GameScene extends Scene {
     private StaticThings heart;
 
     private int numberOfLives = 3;
+    private double vy;
 
     //Hero creation
     Hero pix;
@@ -24,15 +25,18 @@ public class GameScene extends Scene {
     public static final String BACKGROUND_PATH = "file:img/background.png";
     public static final String HEART_PATH = "file:img/heart.png";
     public static final String PIX_SPRITE_SHEET = "file:img/pixspritesheet.png";
-    public static final String MUSIC_PATH = "file:/C:/Workspace/Git_folders/java_courses/PixRunner/sound/theme.mp3";
-    public static final String SOUND_PATH = "file:/C:/Workspace/Git_folders/java_courses/PixRunner/sound/colorswap.mp3";
+    public static final String MUSIC_PATH = "file:/home/mowibox/Documents/WorkspaceU/Git_Folders/java_courses/PixRunner/sound/theme.mp3";
+    
+    public static final String SOUND_PATH = "file:/home/mowibox/Documents/WorkspaceU/Git_Folders/java_courses/PixRunner/sound/colorswap.mp3";
 
-    public static final String JUMP_SOUND = "file:/C:/Workspace/Git_folders/java_courses/PixRunner/sound/jump.wav";
+    public static final String JUMP_SOUND = "file:/home/mowibox/Documents/WorkspaceU/Git_Folders/java_courses/PixRunner/sound/jump.wav";
 
     private static final int DURATION_FACTOR = 3200000;
 
     private double hue;
     private MediaPlayer mediaPlayer, mediaPlayer2, mediaPlayer3;
+    boolean jumping = false;
+    boolean falling = false;
 
     public GameScene(Group parent, double v, double v1, Camera camera) {
         super(parent, v, v1);
@@ -57,7 +61,7 @@ public class GameScene extends Scene {
 
         this.setOnKeyPressed(event -> {handleKeyPress(event.getCode(), hue);
         hue = handleKeyPress(event.getCode(), hue);
-        // heart.changeColor(hue); //To fix later
+        //heart.changeColor(hue); //To fix later
         });
 
         //Music management
@@ -69,14 +73,9 @@ public class GameScene extends Scene {
 
 
 
-        this.setOnMouseClicked( (event)->{
-            System.out.println("Jump");
-            Media jumpSound = new Media(JUMP_SOUND);
-            mediaPlayer3 = new MediaPlayer(jumpSound);
-            mediaPlayer3.setVolume(0.7);
-            mediaPlayer3.play();
 
-        });
+
+
 
 
 
@@ -106,7 +105,34 @@ public class GameScene extends Scene {
         long bgRightX = 800 - time;
         this.bgLeft.update(bgLeftX);
         this.bgRight.update(bgRightX);
+        updateJump();
 
+    }
+
+    public void jump() {
+        if (!jumping && !falling) {
+            jumping = true;
+            vy = -1.75;
+        }
+    }
+
+    public void updateJump() {
+        if (jumping && !falling) {
+            vy += 0.005;
+            if (vy > 0){
+
+                jumping = false;
+                falling = true;
+            }
+        }
+        vy += 0.005;
+        pix.getSprite().setY(pix.getSprite().getY() + vy);
+
+        if(pix.getSprite().getY() >= 250){
+                pix.getSprite().setY(250);
+
+                falling = false;
+        }
     }
 
     private double handleKeyPress(KeyCode code, double currentHue) {
@@ -141,9 +167,20 @@ public class GameScene extends Scene {
             default -> currentHue;
         };
         pix.colorChange(hue);
+
+        if (code == KeyCode.SPACE || code == KeyCode.UP) {
+            if (!jumping && !falling) {
+                System.out.println("Jump");
+                Media jumpSound = new Media(JUMP_SOUND);
+                mediaPlayer3 = new MediaPlayer(jumpSound);
+                mediaPlayer3.setVolume(0.7);
+                mediaPlayer3.play();
+                jump();
+            }
+        }
+
         return hue;
     }
-
 
 
     public Camera gettingCamera() {
