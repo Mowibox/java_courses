@@ -6,6 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,12 +30,14 @@ public class GameScene extends Scene {
     //Macros for images/music paths
     public static final String BACKGROUND_PATH = "file:img/background.png";
     public static final String HEART_PATH = "file:img/heart.png";
-    public static final String PIX_SPRITE_SHEET = "file:img/pixspritesheet.png";
-    public static final String MUSIC_PATH = "file:/home/mowibox/Documents/WorkspaceU/Git_Folders/java_courses/PixRunner/sound/theme.mp3";
-    
-    public static final String SOUND_PATH = "file:/home/mowibox/Documents/WorkspaceU/Git_Folders/java_courses/PixRunner/sound/colorswap.mp3";
 
-    public static final String JUMP_SOUND = "file:/home/mowibox/Documents/WorkspaceU/Git_Folders/java_courses/PixRunner/sound/jump.wav";
+
+    public static final String PIX_SPRITE_SHEET = "file:img/pixspritesheet.png";
+    public static final String MUSIC_PATH = Paths.get("sound\\theme.mp3").toUri().toString();
+    
+    public static final String SOUND_PATH = Paths.get("sound\\colorswap.mp3").toUri().toString();
+
+    public static final String JUMP_SOUND = Paths.get("sound\\jump.wav").toUri().toString();
 
     private static final int DURATION_FACTOR = 3200000;
 
@@ -101,25 +104,26 @@ public class GameScene extends Scene {
         updateJump();
         setNumberOfLives(numberOfLives);
 
+
+
     }
 
     public void jump() {
         if (!jumping && !falling) {
             jumping = true;
-            vy = -1.2;
+            vy = -7.5;
         }
     }
 
     public void updateJump() {
         if (jumping && !falling) {
-            vy += 0.0005;
             if (vy > 0){
 
                 jumping = false;
                 falling = true;
             }
         }
-        vy += 0.005;
+        vy += 0.2;
         pix.getSprite().setY(pix.getSprite().getY() + vy);
 
         if(pix.getSprite().getY() >= 250){
