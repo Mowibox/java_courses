@@ -20,7 +20,7 @@ public class Main extends Application {
         GameScene gameScene = new GameScene(root, 800,400,camera);
 
         primaryStage.setScene(gameScene);
-        System.out.println(gameScene.gettingCamera());
+        //System.out.println(gameScene.gettingCamera());
         primaryStage.show();
 
         AnimationTimer timer = new AnimationTimer() {
