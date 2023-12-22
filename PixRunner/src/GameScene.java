@@ -18,11 +18,10 @@ public class GameScene extends Scene {
 
     //Adding background
     private StaticThings bgLeft, bgRight;
-    private StaticThings heart;
 
     private int numberOfLives = 3;
     private List<StaticThings> hearts = new ArrayList<>();
-    private double vy;
+    double vy;
 
     //Hero creation
     Hero pix;
@@ -30,21 +29,24 @@ public class GameScene extends Scene {
     //Macros for images/music paths
     public static final String BACKGROUND_PATH = "file:img/background.png";
     public static final String HEART_PATH = "file:img/heart.png";
-
-
     public static final String PIX_SPRITE_SHEET = "file:img/pixspritesheet.png";
+    public static final String BUTTONS_PATH = "file:img/buttons.png";
     public static final String MUSIC_PATH = Paths.get("sound\\theme.mp3").toUri().toString();
-    
     public static final String SOUND_PATH = Paths.get("sound\\colorswap.mp3").toUri().toString();
-
     public static final String JUMP_SOUND = Paths.get("sound\\jump.wav").toUri().toString();
+    private MediaPlayer mediaPlayer, mediaPlayer2, mediaPlayer3;
 
     private static final int DURATION_FACTOR = 3200000;
+    private static final int GROUND = 550;
 
-    private double hue;
-    private MediaPlayer mediaPlayer, mediaPlayer2, mediaPlayer3;
     boolean jumping = false;
     boolean falling = false;
+    int doubleJump = 1;
+
+    private StaticThings buttons;
+    private double hue;
+
+
 
     public GameScene(Group parent, double v, double v1, Camera camera) {
         super(parent, v, v1);
@@ -53,20 +55,24 @@ public class GameScene extends Scene {
 
         //Allow to display the background images
         this.bgLeft = new StaticThings(0,0,BACKGROUND_PATH);
-        this.bgRight = new StaticThings(800,0,BACKGROUND_PATH);
+        this.bgRight = new StaticThings(1360,0,BACKGROUND_PATH);
         this.parent.getChildren().add(this.bgLeft.getSprite());
         this.parent.getChildren().add(this.bgRight.getSprite());
 
         initializeHearts();
 
-        //Hero creation
-        this.pix = new Hero(50, 260, PIX_SPRITE_SHEET, 0, 0, 6, 85, 100,85,0);
+        //Hero (Pix) creation
+        this.pix = new Hero(50, GROUND, PIX_SPRITE_SHEET, 0, 0, 6, 85, 100,85,0);
         this.parent.getChildren().add(pix.getSprite());
 
+        //Pix color changing management
         this.setOnKeyPressed(event -> {handleKeyPress(event.getCode(), hue);
         hue = handleKeyPress(event.getCode(), hue);
-        //heart.changeColor(hue); //To fix later
         });
+
+        //Buttons
+        this.buttons = new StaticThings(0,0,BUTTONS_PATH);
+        this.parent.getChildren().add(this.buttons.getSprite());
 
         //Music management
         Media music = new Media(MUSIC_PATH);
@@ -94,41 +100,45 @@ public class GameScene extends Scene {
     }
 
     public void update(long time) {
-        long elapsedTime = (time / DURATION_FACTOR) % 800; //Loop is managed with the %
+        long elapsedTime = (time / DURATION_FACTOR) % 1360; //Loop is managed with the %
 
         //Left shifting
         long bgLeftX = -elapsedTime;
-        long bgRightX = 800 - elapsedTime;
+        long bgRightX = 1360 - elapsedTime;
         this.bgLeft.update(bgLeftX);
         this.bgRight.update(bgRightX);
+
         updateJump();
         setNumberOfLives(numberOfLives);
-
-
 
     }
 
     public void jump() {
         if (!jumping && !falling) {
             jumping = true;
-            vy = -7.5;
+            //Vertical burst
+            vy = -13;
         }
     }
 
     public void updateJump() {
         if (jumping && !falling) {
-            if (vy > 0){
-
+            if (doubleJump >= 1){
                 jumping = false;
+                doubleJump--;
+            }
+            if (vy > 0){
                 falling = true;
             }
         }
-        vy += 0.2;
+        //Gravity effect
+        vy += 0.35;
+
         pix.getSprite().setY(pix.getSprite().getY() + vy);
 
-        if(pix.getSprite().getY() >= 250){
-                pix.getSprite().setY(250);
-
+        if(pix.getSprite().getY() >= GROUND){
+                pix.getSprite().setY(GROUND);
+                doubleJump = 1;
                 falling = false;
         }
     }
@@ -137,26 +147,32 @@ public class GameScene extends Scene {
         Media sound = new Media(SOUND_PATH);
         mediaPlayer2 = new MediaPlayer(sound);
         double hue = switch (code) {
-            case X -> {
+            case G -> {
                 System.out.println("Orange Pix");
                 mediaPlayer2.play();
                 yield 0.25;
             }
-            case C -> {
+            case H -> {
                 System.out.println("Yellow Pix");
                 mediaPlayer2.play();
                 yield 0.55;
             }
-            case V -> {
+            case J -> {
                 System.out.println("Green Pix");
                 mediaPlayer2.play();
                 yield 0.9;
+            }
+            case V -> {
+                System.out.println("Blue Pix");
+                mediaPlayer2.play();
+                yield -0.70;
             }
             case B -> {
                 System.out.println("Purple Pix");
                 mediaPlayer2.play();
                 yield -0.25;
             }
+
             case N -> {
                 System.out.println("Normal Pix");
                 mediaPlayer2.play();
@@ -165,6 +181,7 @@ public class GameScene extends Scene {
             default -> currentHue;
         };
         pix.colorChange(hue);
+        
 
         if (code == KeyCode.SPACE || code == KeyCode.UP) {
             if (!jumping && !falling) {
@@ -174,7 +191,6 @@ public class GameScene extends Scene {
                 mediaPlayer3.setVolume(0.3);
                 mediaPlayer3.play();
                 jump();
-
             }
         }
 
@@ -200,12 +216,10 @@ public class GameScene extends Scene {
             hearts.add(heart);
         }
     }
+
     public void setNumberOfLives(int newNumberOfLives) {
         numberOfLives = newNumberOfLives;
         updateHearts();
     }
 
-    public Camera gettingCamera() {
-        return camera;
-    }
 }

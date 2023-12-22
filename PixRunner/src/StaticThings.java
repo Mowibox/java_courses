@@ -27,7 +27,7 @@ public class StaticThings {
         return imageView;
     }
 
-    public void update(long posX) {
+    public void update(long posX)  {
         //Giving a new position for the background
         sizeX = posX;
         this.imageView.setX(sizeX);
