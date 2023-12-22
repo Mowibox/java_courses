@@ -31,9 +31,19 @@ public class GameScene extends Scene {
     public static final String HEART_PATH = "file:img/heart.png";
     public static final String PIX_SPRITE_SHEET = "file:img/pixspritesheet.png";
     public static final String BUTTONS_PATH = "file:img/buttons.png";
-    public static final String MUSIC_PATH = Paths.get("sound\\theme.mp3").toUri().toString();
-    public static final String SOUND_PATH = Paths.get("sound\\colorswap.mp3").toUri().toString();
-    public static final String JUMP_SOUND = Paths.get("sound\\jump.wav").toUri().toString();
+    public static String MUSIC_PATH, SOUND_PATH, JUMP_SOUND;
+
+    String os = System.getProperty("os.name").toLowerCase();
+
+    static {
+        String os = System.getProperty("os.name").toLowerCase();
+        // Use different path separators based on the operating system
+        String pathSeparator = os.contains("win") ? "\\" : "/";
+
+        MUSIC_PATH = Paths.get("sound" + pathSeparator + "theme.mp3").toUri().toString();
+        SOUND_PATH = Paths.get("sound" + pathSeparator + "colorswap.mp3").toUri().toString();
+        JUMP_SOUND = Paths.get("sound" + pathSeparator + "jump.wav").toUri().toString();
+    }
     private MediaPlayer mediaPlayer, mediaPlayer2, mediaPlayer3;
 
     private static final int DURATION_FACTOR = 3200000;
@@ -83,6 +93,7 @@ public class GameScene extends Scene {
 
     }
 
+
     public void render() {
         double cameraX = camera.getX();
         double cameraY = camera.getY();
@@ -117,7 +128,8 @@ public class GameScene extends Scene {
         if (!jumping && !falling) {
             jumping = true;
             //Vertical burst
-            vy = -13;
+            vy = os.contains("win") ? -13 : -4;
+
         }
     }
 
@@ -132,7 +144,7 @@ public class GameScene extends Scene {
             }
         }
         //Gravity effect
-        vy += 0.35;
+        vy += os.contains("win") ? 0.35 : 0.036;
 
         pix.getSprite().setY(pix.getSprite().getY() + vy);
 
