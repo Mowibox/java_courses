@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="openjfx.javafx.media" type="repository">
+  <library name="openjfx.javafx.media1" type="repository">
     <properties maven-id="org.openjfx:javafx-media:18.0.1" />
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-media/18.0.1/javafx-media-18.0.1.jar!/" />
